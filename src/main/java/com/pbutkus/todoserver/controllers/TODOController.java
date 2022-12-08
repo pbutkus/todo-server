@@ -30,13 +30,25 @@ public class TODOController {
 
     @PutMapping("/todo")
     public ResponseEntity<TODO> updateTodo(@RequestBody TODO todo) {
+        TODO todoToUpdate = todoService.getTodoById(todo.getId());
+
+        if (todoToUpdate == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         todoService.save(todo);
         return new ResponseEntity<>(todo, HttpStatus.OK);
     }
 
     @DeleteMapping("/todo/{id}")
     public ResponseEntity<TODO> deleteTodo(@PathVariable String id) {
-        TODO todoToDelete = todoService.delete(UUID.fromString(id));
+        TODO todoToDelete = todoService.getTodoById(UUID.fromString(id));
+
+        if (todoToDelete == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        todoService.delete(todoToDelete);
 
         return new ResponseEntity<>(todoToDelete, HttpStatus.OK);
     }

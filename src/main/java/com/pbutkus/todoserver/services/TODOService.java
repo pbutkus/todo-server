@@ -31,12 +31,14 @@ public class TODOService {
         return todoRepository.findAllByOrderByCreatedDesc();
     }
 
-    public TODO delete(UUID id) {
-        TODO todoToDelete = todoRepository.findById(id).orElse(null);
+    public TODO getTodoById(UUID id) {
+        return todoRepository.findById(id).orElse(null);
+    }
 
-        todoRepository.delete(todoToDelete);
+    public TODO delete(TODO todo) {
+        todoRepository.delete(todo);
 
-        return todoToDelete;
+        return todo;
     }
 
 }
